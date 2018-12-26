@@ -15,11 +15,14 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 
+global.app = app;
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
     autoUpdater.checkForUpdatesAndNotify();
+
   }
 }
 
@@ -88,6 +91,8 @@ app.on('ready', async () => {
       mainWindow.focus();
     }
   });
+
+  mainWindow.webContents.openDevTools ()
 
   mainWindow.on('closed', () => {
     mainWindow = null;

@@ -1,0 +1,9 @@
+{
+  "database": "celv_data",
+  "username": "celv",
+  "password": "celv",
+  "db": {
+    "dialect": "sqlite",
+    "storage": "celv_data.db"
+  }
+}
