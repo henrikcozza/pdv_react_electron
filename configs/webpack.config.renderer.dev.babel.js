@@ -59,6 +59,10 @@ export default merge.smart(baseConfig, {
 
   module: {
     rules: [
+        {
+      test: /\.less$/,
+      loader: 'less-loader' // compiles Less to CSS
+        },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,

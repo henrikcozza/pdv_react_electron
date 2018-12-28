@@ -231,6 +231,7 @@
     "husky": "^1.3.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
+    "less-loader": "^4.1.0",
     "lint-staged": "^8.1.0",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
@@ -260,9 +261,13 @@
     "webpack-merge": "^4.1.5",
     "yarn": "^1.12.3"
   },
-  "extraResources": ["celv.db"],
+  "extraResources": [
+    "celv.db"
+  ],
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.6.3",
+    "antd": "^3.11.6",
+    "babel-plugin-import": "^1.11.0",
     "connected-react-router": "^5.0.1",
     "devtron": "^1.4.0",
     "electron-debug": "^2.0.0",
@@ -270,11 +275,15 @@
     "electron-updater": "^4.0.0",
     "history": "^4.7.2",
     "react": "^16.7.0",
+    "react-bootstrap": "^0.32.4",
+    "react-bootstrap-pagination": "^1.0.6",
     "react-dom": "^16.7.0",
+    "react-fontawesome": "^1.6.1",
     "react-hot-loader": "^4.6.3",
     "react-redux": "^5.1.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "reactjs-admin-lte": "^0.6.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "sequelize": "^4.42.0",

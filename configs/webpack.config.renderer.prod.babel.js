@@ -32,6 +32,10 @@ export default merge.smart(baseConfig, {
     rules: [
       // Extract all .global.css to style.css as is
       {
+      test: /\.less$/,
+      loader: 'less-loader' // compiles Less to CSS
+        },
+      {
         test: /\.global\.css$/,
         use: [
           {

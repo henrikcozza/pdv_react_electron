@@ -20,7 +20,11 @@ export default {
             cacheDirectory: true
           }
         }
-      }
+    },
+    {
+      test: /\.less$/,
+      loader: 'less-loader' // compiles Less to CSS
+    }
     ]
   },
 

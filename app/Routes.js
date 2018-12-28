@@ -4,12 +4,14 @@ import routes from './constants/routes';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
 import CounterPage from './containers/CounterPage';
+import ProductPage from './containers/ProductPage';
 
 export default () => (
   <App>
     <Switch>
       <Route path={routes.COUNTER} component={CounterPage} />
       <Route path={routes.HOME} component={HomePage} />
+      <Route path={routes.PRODUTOS} component={ProductPage} />
     </Switch>
   </App>
 );
