@@ -38,6 +38,10 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
+.ant-input-number {
+  width: 200px;
+  margin-right: 10px;
+}
 
 /*
 h2 {

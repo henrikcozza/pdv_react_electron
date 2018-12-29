@@ -43,7 +43,7 @@ export default class SideBar extends Component<Props> {
             </Menu.Item>
 
             <Menu.Item key="2">
-                <Link to={routes.HOME}>
+                <Link to={routes.PRODUTOS}>
                   <Icon type="scan" />
                   <span>Produtos</span>
                 </Link>
