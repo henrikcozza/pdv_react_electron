@@ -42,6 +42,7 @@ class DynamicRule extends React.Component  {
                   ]).then(()=>{
                       message.success('Produto salvo com sucesso', 2.5)
                       this.props.handleProdutos()
+                      this.props.form.resetFields();
                   });
             });
 
