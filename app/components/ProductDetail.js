@@ -34,16 +34,13 @@ class DynamicRule extends React.Component  {
       this.props.form.validateFields(
         (err) => {
           if (!err) {
-            message.loading('Salvando produto', 2.5).then( ()=>{
+            message.loading('Aguarde, salvando produto', 2.5).then( ()=>{
                 // console.log(this.props.form.getFieldsValue())
                 let produto = this.props.form.getFieldsValue()
-
-                console.log(produto)
-
                 models.Products.bulkCreate([
                       {...produto},
                   ]).then(()=>{
-                      message.success('salvo', 2.5)
+                      message.success('Produto salvo com sucesso', 2.5)
                       this.props.handleProdutos()
                   });
             });
