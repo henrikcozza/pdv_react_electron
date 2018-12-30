@@ -1,121 +1,45 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import {
-  Form, Input, Col, Button, Checkbox, InputNumber,
-} from 'antd';
+import ProductDetail from '../components/ProductDetail';
+import ProductList from '../components/ProductList';
 
-const formItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8 },
-};
-const formTailLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8, offset: 4 },
-};
-class DynamicRule extends React.Component {
-  state = {
-    checkNick: false,
-    moneyInput: 0,
-  };
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { handlerRouteName } from '../actions/routeName'
 
-  check = () => {
-    this.props.form.validateFields(
-      (err) => {
-        if (!err) {
-          console.info('success');
-        }
-      },
-    );
-  }
+import { Tabs } from 'antd';
 
-  handleChange = (e) => {
-    this.setState({
-      checkNick: e.target.checked,
-    }, () => {
-      this.props.form.validateFields(['name'], { force: true });
-    });
-  }
+const TabPane = Tabs.TabPane;
 
-  onChange = (value) => {
-   console.log('changed', value);
+class ProductPage extends React.Component {
+  constructor(props){
+      super(props);
+      this.props.handleName('Produtos')
   }
   render() {
-    const { getFieldDecorator } = this.props.form;
+
     return (
-      <div>
-        <Form.Item {...formItemLayout} label="Nome do Produto">
-          {getFieldDecorator('name', {
-            rules: [{
-              required: true,
-              message: 'Por favor insira o nome do produto',
-            }],
-          })(
-            <Input placeholder="Insira o nome do produto" />
-          )}
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Valor de venda">
-
-                <InputNumber
-                  defaultValue={0.00}
-                  min={0}
-                  max={9999.99}
-                  size="large"
-                  precision={2}
-                  decimalSeparator=","
-                  formatter={value => `R$ ${value}`.replace(/^R\$?\d+((.\d{3})+)?(\,\d+)?$/)}
-                  parser={value => value.replace(/R\$\s?|(,*)/g, '')}
-                  onChange={this.onChange}
-                />
-
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Valor de custo">
-
-                <InputNumber
-                  defaultValue={0.00}
-                  min={0}
-                  max={9999.99}
-                  size="large"
-                  precision={2}
-                  decimalSeparator=","
-                  formatter={value => `R$ ${value}`.replace(/^R\$?\d+((.\d{3})+)?(\,\d+)?$/)}
-                  parser={value => value.replace(/R\$\s?|(,*)/g, '')}
-                  onChange={this.onChange}
-                />
-
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Estoque Minimo">
-
-                <InputNumber
-                  defaultValue={0}
-                  min={0}
-                  max={9999}
-                  size="large"
-                  onChange={this.onChange}
-                />
-
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Estoque">
-
-                <InputNumber
-                  defaultValue={0}
-                  min={0}
-                  max={9999}
-                  size="large"
-                  onChange={this.onChange}
-                />
-
-        </Form.Item>
-
-        <Form.Item {...formTailLayout}>
-          <Button type="primary" onClick={this.check}>
-            Cadastrar Produto
-          </Button>
-        </Form.Item>
-      </div>
+        <div className="card-container">
+            <Tabs type="card">
+              <TabPane tab="Lista de produtos" key="1">
+                <ProductList/>
+              </TabPane>
+              <TabPane tab="Cadastrar produto" key="2">
+                <ProductDetail/>
+              </TabPane>
+            </Tabs>
+        </div>
     );
   }
 }
 
-const ProductPage = Form.create()(DynamicRule);
 
-export default ProductPage
+function mapStateToProps(state) {
+  return {
+    routeName: state.routeName.routeName
+  };
+}
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({handleName: handlerRouteName}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);

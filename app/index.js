@@ -5,12 +5,30 @@ import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 import models from '../models/index';
+
 const store = configureStore();
 
 console.log(models.Users)
 
 models.sequelize.sync().then(() => {
     console.log('banco de dados carregado')
+    // models.Products.bulkCreate([
+    //     { name: 'vela de 7 dias', price:10.00, cust:5.00,'stock':10,min_stock:2},
+    // ]).then(()=>{console.log('inseriu produto')})
+    //
+    // models.Products.findAll().then(person => {
+    //     if(person){
+    //
+    //         console.log(JSON.stringify(person))
+    //     }
+    // });
+    // models.Users.findAll().then(person => {
+    //     debugger;
+    //     if(person){
+    //
+    //         console.log(JSON.stringify(person))
+    //     }
+    // });
     // models.Users.bulkCreate([
     //   { firstName: 'barao', lastName:'prozoak', email:'teste@teste.com'},
     // ]).then(

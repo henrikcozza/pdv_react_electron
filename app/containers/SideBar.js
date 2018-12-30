@@ -36,9 +36,9 @@ export default class SideBar extends Component<Props> {
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
 
             <Menu.Item key="1">
-                <Link to={routes.COUNTER}>
-                  <Icon type="pie-chart" />
-                  <span>Contador</span>
+                <Link to={routes.HOME}>
+                    <Icon type="pie-chart" />
+                    <span>Painel Principal</span>
                 </Link>
             </Menu.Item>
 
@@ -48,6 +48,14 @@ export default class SideBar extends Component<Props> {
                   <span>Produtos</span>
                 </Link>
             </Menu.Item>
+
+            <Menu.Item key="3">
+                <Link to={routes.COUNTER}>
+                    <Icon type="pie-chart" />
+                    <span>Contador</span>
+                </Link>
+            </Menu.Item>
+
             <SubMenu
               key="sub1"
               title={<span><Icon type="user" /><span>User</span></span>}

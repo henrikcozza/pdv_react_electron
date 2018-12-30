@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import styles from './Counter.css';
 import routes from '../constants/routes';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { handlerRouteName } from '../actions/routeName'
+
 type Props = {
   increment: () => void,
   incrementIfOdd: () => void,
@@ -12,8 +16,11 @@ type Props = {
   counter: number
 };
 
-export default class Counter extends Component<Props> {
-  props: Props;
+class Counter extends Component<Props> {
+  constructor(props: Props){
+      super(props)
+      this.props.handleName('Contador')
+  }
 
   render() {
     const {
@@ -71,3 +78,15 @@ export default class Counter extends Component<Props> {
     );
   }
 }
+
+
+function mapStateToProps(state) {
+  return {
+    routeName: state.routeName.routeName
+  };
+}
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({handleName: handlerRouteName}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
