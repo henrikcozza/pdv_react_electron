@@ -1,12 +1,13 @@
 import React from "react";
-import ProductDetail from '../components/ProductDetail';
+import ProductDetailCreate from '../components/ProductDetailCreate';
 import ProductList from '../components/ProductList';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { handlerRouteName } from '../actions/routeName'
-
-import { Tabs } from 'antd';
+import Store from '../index'
+import { getAllProducts, createProduto } from '../actions/products';
+import { Tabs, Button, Row, Col, Modal, message } from 'antd';
 
 const TabPane = Tabs.TabPane;
 
@@ -14,18 +15,72 @@ class ProductPage extends React.Component {
   constructor(props){
       super(props);
       this.props.handleName('Produtos')
+      this.store = Store
+      this.state = {
+          'dataCreateForm': '',
+          'dataCreate': ''
+      };
   }
+
+  createItem = (form, item) =>{
+      console.log('executou create')
+      console.log(item)
+      this.state.dataCreateForm = form
+      this.state.dataCreate = item
+
+  }
+
+  createFormModel = () => {
+      const atualizaLista = this.props.getAllProducts
+      const createProduto = this.props.createProduto
+      const  store  = this.store
+      const state = this.state;
+      const modal = Modal
+      modal.confirm({
+          title: 'Cadastrar produto',
+          content:  <ProductDetailCreate store={store} createItem={this.createItem}/>,
+          width: '520px',
+          okText: 'Salvar',
+          okType: 'dashed',
+          cancelText: 'Sair',
+          centered: true,
+          onOk(evento) {
+
+              state.dataCreateForm.validateFields(
+                (err) => {
+                  if (!err) {
+                      createProduto(state.dataCreate)
+                      state.dataCreateForm.resetFields()
+                      //close()
+                      evento()
+
+                  }
+              })
+          },
+          onCancel() {
+              console.log('Cancelou');
+          },
+      })
+  }
+
   render() {
+      const state = this.state;
+
     return (
         <div className="card-container">
-            <Tabs type="card">
-              <TabPane tab="Lista de produtos" key="1">
+                <Row>
+                     <Col span={15} />
+                    <Button
+                        type="primary"
+                        icon="file-add"
+                        size='large'
+                        onClick={this.createFormModel}
+                        >Cadastrar novo produto</Button>
+                </Row>
+                <br/>
                 <ProductList/>
-              </TabPane>
-              <TabPane tab="Cadastrar produto" key="2">
-                <ProductDetail/>
-              </TabPane>
-            </Tabs>
+
+
         </div>
     );
   }
@@ -38,7 +93,11 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({handleName: handlerRouteName}, dispatch);
+  return bindActionCreators({
+      handleName: handlerRouteName,
+      getAllProducts: getAllProducts,
+      createProduto: createProduto,
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);

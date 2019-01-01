@@ -5,6 +5,7 @@ import { connectRouter } from 'connected-react-router';
 
 export const GET_ALL_PRODUTOS = 'GET_ALL_PRODUTOS';
 export const UPDATE_PRODUTO = 'UPDATE_PRODUTO';
+export const CREATE_PRODUTO = 'CREATE_PRODUTO';
 
 const initialState = {
     produtos: []
@@ -18,6 +19,8 @@ export default function produtos(state = initialState, action) {
                 produtos: action.payload
             };
         case UPDATE_PRODUTO:
+            return state;
+        case CREATE_PRODUTO:
             return state;
         default:
             return state;

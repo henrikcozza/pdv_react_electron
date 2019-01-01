@@ -12,12 +12,12 @@ import { connect, Provider } from 'react-redux';
 import { Redux } from 'redux';
 
 import { bindActionCreators } from 'redux';
-import { getAllProducts, updateProduct } from '../actions/products';
+import { getAllProducts, updateProduct, createProduto } from '../actions/products';
 
 import currency from 'currency-formatter';
 import ProductDetailEdit from './ProductDetailEdit'
 import Store from '../index'
-import { configureStore} from '../store/configureStore';
+
 
 
 
@@ -79,9 +79,10 @@ class ProductList extends React.Component<Props>  {
         this.updateItem = this.updateItem.bind(this)
         this.store = Store
         this.state = {
-          'dataEditForm': ''
+          'dataEditForm': '',
+          'dataEdit': ''
         };
-        
+
 
     }
 
@@ -105,23 +106,11 @@ class ProductList extends React.Component<Props>  {
         })
     }
 
-    updateItem = (item) =>{
+    updateItem = (form, item) =>{
         console.log('executou update')
         console.log(item)
-        this.state.dataEditForm = item
-        // this.setState({
-        //     'dataEditForm': item
-        // }, function() {
-        //     console.log('alterou')
-        //
-        // })
-    }
-
-    resetItem = (item) =>{
-        this.setState({
-            'dataEditForm': ''
-        })
-
+        this.state.dataEdit = item
+        this.state.dataEditForm = form
     }
 
     editFormModel = (row) => {
@@ -130,23 +119,40 @@ class ProductList extends React.Component<Props>  {
         const updateItem = this.updateItem
         const state = this.state;
         const  store  = this.store
-        Modal.confirm({
+        const modal = Modal
+        modal.confirm({
             title: 'Editar este produto',
-            content:  <ProductDetailEdit store={store} item={row} updateItem={updateItem} wrappedComponentRef={ (inst) => {return inst} }/>,
+            content:  <ProductDetailEdit store={store} item={row} updateItem={updateItem}/>,
             width: '520px',
             okText: 'Salvar',
-            okType: 'danger',
-            cancelText: 'Cancelar',
+            okType: 'dashed',
+            cancelText: 'Sair',
             centered: true,
-            onOk() {
-                console.log( state.dataEditForm )
-                updateProduto(row, state.dataEditForm)
+            onOk(e) {
+                state.dataEditForm.validateFields((err) => {
+                    if (!err) {
+                        if(state.dataEditForm.isFieldsTouched()){
+                             updateProduto(row, state.dataEdit)
+                             //close()
+                             e()
+                        }else{
+                            e()
+                        }
+
+                    }else if(err){
+                        state.dataEditForm.validateFields()
+                        e.preventDefault;
+                    }
+                })
             },
             onCancel() {
                 console.log('Cancelou');
             },
         })
     }
+
+
+
     onChange = (pagination, filters, sorter) => {
         console.log('params', pagination, filters, sorter);
     }
@@ -170,7 +176,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({handlerProdutos: getAllProducts, updateProduto: updateProduct}, dispatch);
+  return bindActionCreators({
+      handlerProdutos: getAllProducts,
+      updateProduto: updateProduct,
+      createProduto: createProduto
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

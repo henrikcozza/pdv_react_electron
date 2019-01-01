@@ -14,8 +14,8 @@ import { bindActionCreators } from 'redux';
 import { getAllProducts } from '../actions/products';
 
 const formItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 14 },
 };
 const formTailLayout = {
   labelCol: { span: 4 },
@@ -24,35 +24,27 @@ const formTailLayout = {
 
 
 
-class DynamicRule extends React.Component  {
+class ProductDetailCreate extends React.Component  {
     state = {
       checkNick: false,
       moneyInput: 0,
     };
-
+    constructor(props){
+        super(props)
+        this.props.createItem(this.props.form, '')
+    }
     check = () => {
-      this.props.form.validateFields(
-        (err) => {
-          if (!err) {
-            message.loading('Aguarde, salvando produto', 2.5).then( ()=>{
+
                 // console.log(this.props.form.getFieldsValue())
-                let produto = this.props.form.getFieldsValue()
-                models.Products.bulkCreate([
-                      {...produto},
-                  ]).then(()=>{
-                      message.success('Produto salvo com sucesso', 2.5)
-                      this.props.handleProdutos()
-                      this.props.form.resetFields();
-                  });
-            });
+                let produto = this.props.form.getFieldsValue() || ''
+                this.props.createItem(this.props.form, produto)
 
-
-         }
-         else{
-             console.log(err)
-         }
-        },
-      );
+         // }
+         // else{
+         //     this.props.createItem(this.props.form, '')
+         //     console.log(err)
+         // }
+    
     }
 
     handleChange = (e) => {
@@ -64,7 +56,7 @@ class DynamicRule extends React.Component  {
     }
 
     onChange = (value) => {
-
+        this.check()
     }
 
   render() {
@@ -79,7 +71,10 @@ class DynamicRule extends React.Component  {
 
               }],
             })(
-              <Input placeholder="Insira o nome do produto" />
+              <Input
+                  placeholder="Insira o nome do produto"
+                  onBlur={this.onChange}
+                />
             )}
           </Form.Item>
           <Form.Item {...formItemLayout} label="Valor de venda">
@@ -97,7 +92,7 @@ class DynamicRule extends React.Component  {
                     decimalSeparator=","
                     formatter={value => `R$ ${value}`.replace(/^R\$?\d+((.\d{3})+)?(\,\d+)?$/)}
                     parser={value => value.replace(/R\$\s?|(,*)/g, '')}
-                    onChange={this.onChange}
+                    onBlur={this.onChange}
                   />
                 )}
           </Form.Item>
@@ -116,7 +111,7 @@ class DynamicRule extends React.Component  {
                     decimalSeparator=","
                     formatter={value => `R$ ${value}`.replace(/^R\$?\d+((.\d{3})+)?(\,\d+)?$/)}
                     parser={value => value.replace(/R\$\s?|(,*)/g, '')}
-                    onChange={this.onChange}
+                    onBlur={this.onChange}
                   />
               )}
           </Form.Item>
@@ -131,7 +126,7 @@ class DynamicRule extends React.Component  {
                     min={0}
                     max={9999}
                     size="large"
-                    onChange={this.onChange}
+                    onBlur={this.onChange}
                   />
               )}
           </Form.Item>
@@ -146,26 +141,20 @@ class DynamicRule extends React.Component  {
                     min={0}
                     max={9999}
                     size="large"
-                    onChange={this.onChange}
+                    onBlur={this.onChange}
                   />
               )}
           </Form.Item>
 
-          <Form.Item {...formTailLayout}>
-            <Button type="primary" onClick={this.check}>
-              Cadastrar Produto
-          </Button>
-          </Form.Item>
+
         </div>
     );
   }
 }
-const ProductDetail = Form.create()(DynamicRule);
-
 
 function mapDispatchToProps(dispatch){
   return bindActionCreators({handleProdutos: getAllProducts}, dispatch);
 }
 
 
-export default connect(null, mapDispatchToProps)( ProductDetail);
+export default connect(null, mapDispatchToProps)(Form.create()(ProductDetailCreate));

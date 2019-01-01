@@ -39,16 +39,14 @@ class ProductDetailEdit extends React.Component  {
             console.error('prop item não foi informado')
         }
         this.onChange = this.onChange.bind(this)
+        this.props.updateItem(this.props.form, '')
     }
 
     check = (e) => {
-      this.props.form.validateFields(
-        (err) => {
-            let produto = this.props.form.getFieldsValue()
-            console.log(this.props.form)
-            this.props.updateItem(produto)
-            this.props.handlerProdutos()
-        });
+
+        let produto = this.props.form.getFieldsValue()
+        this.props.updateItem(this.props.form, produto)
+
     }
 
     handleChange = (e) => {
