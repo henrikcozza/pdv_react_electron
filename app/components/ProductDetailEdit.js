@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import routes from '../constants/routes';
 import styles from './Home.css';
 import ReactDOM from "react-dom";
+import {createForm} from 'rc-form';
 import {
   Form, Input, Col, Button, Checkbox, InputNumber, message,
 } from 'antd';
@@ -14,45 +15,40 @@ import { bindActionCreators } from 'redux';
 import { getAllProducts } from '../actions/products';
 
 const formItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 14 },
 };
 const formTailLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 8, offset: 4 },
+  wrapperCol: { span: 2, offset: 1 },
 };
 
 
 
-class DynamicRule extends React.Component  {
+class ProductDetailEdit extends React.Component  {
     state = {
       checkNick: false,
       moneyInput: 0,
     };
+    constructor(props){
+        super(props);
+        try {
+            let a = this.props.item
+        }
+        catch{
+            console.error('prop item não foi informado')
+        }
+        this.onChange = this.onChange.bind(this)
+    }
 
-    check = () => {
+    check = (e) => {
       this.props.form.validateFields(
         (err) => {
-          if (!err) {
-            message.loading('Aguarde, salvando produto', 2.5).then( ()=>{
-                // console.log(this.props.form.getFieldsValue())
-                let produto = this.props.form.getFieldsValue()
-                models.Products.bulkCreate([
-                      {...produto},
-                  ]).then(()=>{
-                      message.success('Produto salvo com sucesso', 2.5)
-                      this.props.handleProdutos()
-                      this.props.form.resetFields();
-                  });
-            });
-
-
-         }
-         else{
-             console.log(err)
-         }
-        },
-      );
+            let produto = this.props.form.getFieldsValue()
+            console.log(this.props.form)
+            this.props.updateItem(produto)
+            this.props.handlerProdutos()
+        });
     }
 
     handleChange = (e) => {
@@ -64,22 +60,29 @@ class DynamicRule extends React.Component  {
     }
 
     onChange = (value) => {
-
+        console.log(value)
+        this.check()
     }
 
   render() {
    const { getFieldDecorator } = this.props.form;
+   const produto = this.props.item
     return (
         <div>
+         <Form layout="vertical">
           <Form.Item {...formItemLayout} label="Nome do Produto">
             {getFieldDecorator('name', {
               rules: [{
                 required: true,
                 message: 'Por favor insira o nome do produto',
-
               }],
+              initialValue: produto.name,
             })(
-              <Input placeholder="Insira o nome do produto" />
+              <Input
+                  placeholder="Insira o nome do produto"
+                  onBlur={(e) => this.check(e) }
+
+              />
             )}
           </Form.Item>
           <Form.Item {...formItemLayout} label="Valor de venda">
@@ -88,16 +91,17 @@ class DynamicRule extends React.Component  {
                   required: true,
                   message: 'Por favor informe o valor de venda deste produto',
                   }],
+                  initialValue:produto.price
                 })(
                   <InputNumber
                     min={0}
                     max={9999.99}
                     size="large"
+                    onBlur={this.check}
                     precision={2}
                     decimalSeparator=","
                     formatter={value => `R$ ${value}`.replace(/^R\$?\d+((.\d{3})+)?(\,\d+)?$/)}
                     parser={value => value.replace(/R\$\s?|(,*)/g, '')}
-                    onChange={this.onChange}
                   />
                 )}
           </Form.Item>
@@ -107,16 +111,17 @@ class DynamicRule extends React.Component  {
                   required: true,
                   message: 'Por favor informe o valor de custo deste produto',
                   }],
+                  initialValue:produto.cust
                 })(
                   <InputNumber
                     min={0}
                     max={9999.99}
                     size="large"
+                    onBlur={this.check}
                     precision={2}
                     decimalSeparator=","
                     formatter={value => `R$ ${value}`.replace(/^R\$?\d+((.\d{3})+)?(\,\d+)?$/)}
                     parser={value => value.replace(/R\$\s?|(,*)/g, '')}
-                    onChange={this.onChange}
                   />
               )}
           </Form.Item>
@@ -126,12 +131,13 @@ class DynamicRule extends React.Component  {
                   required: true,
                   message: 'Por favor insira a quantidade minima de estoque, que o sistema usara para emiitir alerta sobre o baixo estoque do produto',
                   }],
+                  initialValue:produto.min_stock
                 })(
                   <InputNumber
                     min={0}
                     max={9999}
                     size="large"
-                    onChange={this.onChange}
+                    onBlur={this.check}
                   />
               )}
           </Form.Item>
@@ -139,33 +145,35 @@ class DynamicRule extends React.Component  {
               {getFieldDecorator('stock', {
                 rules: [{
                   required: true,
-                  message: 'Por favor insira a quantidde em estoque do produto',
+                  message: 'Por favor insira a quantidade em estoque do produto',
                   }],
+                  initialValue:produto.stock
                 })(
                   <InputNumber
                     min={0}
                     max={9999}
                     size="large"
-                    onChange={this.onChange}
+                    onBlur={this.check}
+
                   />
               )}
           </Form.Item>
 
-          <Form.Item {...formTailLayout}>
-            <Button type="primary" onClick={this.check}>
-              Cadastrar Produto
-          </Button>
-          </Form.Item>
-        </div>
+      </Form>
+  </div>
     );
   }
 }
-const ProductDetail = Form.create()(DynamicRule);
 
+
+function mapStateToProps(state) {
+  return state
+}
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({handleProdutos: getAllProducts}, dispatch);
+  return bindActionCreators({handlerProdutos: getAllProducts}, dispatch);
 }
 
 
-export default connect(null, mapDispatchToProps)( ProductDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(ProductDetailEdit));
+// export default ProductDetail

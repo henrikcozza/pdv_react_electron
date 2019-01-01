@@ -16,7 +16,6 @@ class ProductPage extends React.Component {
       this.props.handleName('Produtos')
   }
   render() {
-
     return (
         <div className="card-container">
             <Tabs type="card">

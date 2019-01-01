@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import type { Store } from '../reducers/types';
 import Routes from '../Routes';
 
-type Props = {
+export type Props = {
   store: Store,
   history: {}
 };

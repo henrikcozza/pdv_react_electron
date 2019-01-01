@@ -8,7 +8,7 @@ import models from '../models/index';
 
 const store = configureStore();
 
-console.log(models.Users)
+console.log(store)
 
 models.sequelize.sync().then(() => {
     console.log('banco de dados carregado')
@@ -83,3 +83,5 @@ if (module.hot) {
     );
   });
 }
+
+export default store;
