@@ -29,7 +29,9 @@ const db = (function () {
 
   let modules = [
     require('./user'),
-    require('./product')
+    require('./product'),
+    require('./sell'),
+    require('./SellDetail'),
   ];
 
   modules.forEach((module) => {

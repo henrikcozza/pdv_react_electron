@@ -167,8 +167,8 @@ class ProductList extends React.Component<Props>  {
 
 
   }
-}
 
+}
 function mapStateToProps(state) {
   return {
     produtos: state.produtos.produtos
