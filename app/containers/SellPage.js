@@ -1,6 +1,7 @@
 import React from "react";
 import ProductDetailCreate from '../components/ProductDetailCreate';
 import SellDetailAddList from '../components/SellDetailAddList';
+import SellDetailList from '../components/SellDetailList';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -68,10 +69,10 @@ class SellPage extends React.Component {
 
     return (
         <div className="card-container">
-            
+
                 <SellDetailAddList/>
 
-
+                <SellDetailList/>
 
         </div>
     );

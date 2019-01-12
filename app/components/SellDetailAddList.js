@@ -11,7 +11,7 @@ import {
 import models from '../../models/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getAllProducts, updateProduct, createProduto } from '../actions/products';
+import { setProduct, removeProduct, cancelSell } from '../actions/sell';
 import currency from 'currency-formatter';
 
 const formItemLayout = {
@@ -26,15 +26,12 @@ const priceStyle = {
     float: 'right',
     color: 'red',
 }
-function onSelect(value) {
-  console.log('onSelect');
-}
+
 
 function renderOption(item) {
   return (
-    <Option key={item.id} text={item.name}>
+    <Option key={item.id} text={item.name} data-object={item}>
       {item.name}
-      <span className="global-search-item-count" style={priceStyle}> {currency.format(item.price, { code: 'BRL' })} </span>
     </Option>
   );
 }
@@ -42,7 +39,16 @@ function renderOption(item) {
 
 class SellDetailAddList extends React.Component  {
   state = {
-    dataSource: [],
+    dataSource: []
+  }
+  constructor(props){
+      super(props);
+      this.onSelect = this.onSelect.bind(this);
+  }
+  onSelect(value, option) {
+    var instance = option.props['data-object']
+    this.props.setProdutos(instance)
+    console.log(instance);
   }
   handleSearch = (value) => {
 
@@ -67,11 +73,12 @@ class SellDetailAddList extends React.Component  {
         this.setState({
             dataSource: !value ? [] : [
                 ...produtos,
-            ]
+            ],
         });
     })
   }
   render() {
+        const onSelect = this.onSelect
         const { dataSource } = this.state;
         return (
             <AutoComplete
@@ -87,15 +94,15 @@ class SellDetailAddList extends React.Component  {
 
 function mapStateToProps(state) {
   return {
-    produtos: state.produtos.produtos
+    produtos_vendidos: state.venda.produtos_vendidos
   };
 }
 
 function mapDispatchToProps(dispatch){
   return bindActionCreators({
-      handlerProdutos: getAllProducts,
-      updateProduto: updateProduct,
-      createProduto: createProduto
+      setProdutos: setProduct,
+      removeProduto: removeProduct,
+      cancelaVenda: cancelSell
   }, dispatch);
 }
 
