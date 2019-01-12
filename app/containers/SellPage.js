@@ -1,6 +1,6 @@
 import React from "react";
 import ProductDetailCreate from '../components/ProductDetailCreate';
-import ProductList from '../components/ProductList';
+import SellDetailAddList from '../components/SellDetailAddList';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,7 +14,7 @@ const TabPane = Tabs.TabPane;
 class SellPage extends React.Component {
   constructor(props){
       super(props);
-      this.props.handleName('Produtos')
+      this.props.handleName('Ponto de Venda')
       this.store = Store
       this.state = {
           'dataCreateForm': '',
@@ -68,17 +68,9 @@ class SellPage extends React.Component {
 
     return (
         <div className="card-container">
-                <Row>
-                     <Col span={15} />
-                    <Button
-                        type="primary"
-                        icon="file-add"
-                        size='large'
-                        onClick={this.createFormModel}
-                        >Cadastrar novo produto</Button>
-                </Row>
-                <br/>
-                <ProductList/>
+            
+                <SellDetailAddList/>
+
 
 
         </div>
