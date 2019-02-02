@@ -13,7 +13,7 @@ const initialState = {
 
 function totalize(lista_obj){
     var total = 0;
-    for(var i = 0; i<=lista_obj.length;i++){
+    for(var i = 0; i<lista_obj.length;i++){
         total += lista_obj[i].price
         console.log('total: '+total)
     }

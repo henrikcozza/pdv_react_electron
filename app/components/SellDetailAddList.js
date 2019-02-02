@@ -49,7 +49,9 @@ class SellDetailAddList extends React.Component  {
     var instance = option.props['data-object']
     this.props.setProdutos(instance)
     console.log(instance);
+    this.setState({value: ''});
   }
+
   handleSearch = (value) => {
 
     models.Products.findAll({ where:
@@ -74,18 +76,21 @@ class SellDetailAddList extends React.Component  {
             dataSource: !value ? [] : [
                 ...produtos,
             ],
+            value: value,
         });
     })
   }
   render() {
         const onSelect = this.onSelect
         const { dataSource } = this.state;
+        const {value } = this.state;
         return (
             <AutoComplete
             dataSource={dataSource.map(renderOption)}
             style={{ width: 500 }}
             onSelect={onSelect}
             onSearch={this.handleSearch}
+            value={value}
             placeholder="pesquise aqui por um produto"
           />
         )

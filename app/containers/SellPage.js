@@ -69,11 +69,8 @@ class SellPage extends React.Component {
 
     return (
         <div className="card-container">
-
                 <SellDetailAddList/>
-
                 <SellDetailList/>
-
         </div>
     );
   }

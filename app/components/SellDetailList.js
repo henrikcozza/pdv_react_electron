@@ -37,7 +37,7 @@ function renderOption(item) {
 }
 
 
-class SellDetailAddList extends React.Component  {
+class SellDetailList extends React.Component  {
 
   constructor(props){
       super(props);
@@ -72,8 +72,8 @@ class SellDetailAddList extends React.Component  {
 
         return (
             <div>
-            <Table dataSource={this.props.produtos_vendidos} columns={columns} />
-            <div><b>TOTAL</b> {currency.format(this.props.venda_total, { code: 'BRL' })} </div>
+                <Table dataSource={this.props.produtos_vendidos} columns={columns} />
+                <div><b>TOTAL</b> {currency.format(this.props.venda_total, { code: 'BRL' })} </div>
             </div>
         )
     }
@@ -94,4 +94,4 @@ function mapDispatchToProps(dispatch){
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SellDetailAddList);
+export default connect(mapStateToProps, mapDispatchToProps)(SellDetailList);
