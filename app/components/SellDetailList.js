@@ -53,6 +53,11 @@ class SellDetailList extends React.Component  {
 
   render() {
         const columns = [{
+            title: 'Quantidade',
+            dataIndex: 'qt',
+            key: 'qt',
+            },
+            {
             title: 'Produto',
             dataIndex: 'name',
             key: 'name',

@@ -47,6 +47,8 @@ class SellDetailAddList extends React.Component  {
   }
   onSelect(value, option) {
     var instance = option.props['data-object']
+    // adciona item com quantidade padrão na tabela
+    instance.qt = 1
     this.props.setProdutos(instance)
     console.log(instance);
     this.setState({value: ''});
