@@ -71,7 +71,7 @@ class SellDetailList extends React.Component  {
             title: 'SubTotal ',
             dataIndex: 'price',
             key: 'price_tot',
-            render: text => currency.format((text*10), { code: 'BRL' }),
+            render: (text, obj) => currency.format( (text*obj.qt), { code: 'BRL' }),
             }
         ];
 

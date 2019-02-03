@@ -14,7 +14,7 @@ const initialState = {
 function totalize(lista_obj){
     var total = 0;
     for(var i = 0; i<lista_obj.length;i++){
-        total += lista_obj[i].price
+        total += lista_obj[i].price * lista_obj[i].qt
         console.log('total: '+total)
     }
     return total
