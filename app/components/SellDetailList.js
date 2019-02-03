@@ -240,7 +240,7 @@ class EditableCell extends React.Component {
                       }],
                       initialValue: record[dataIndex],
                     })(
-                      <Input
+                      <InputNumber
                         ref={node => (this.input = node)}
                         onPressEnter={this.save}
                       />
