@@ -10,8 +10,6 @@ import {
   message
 } from 'antd';
 
-
-
 export function setProduct(data){
     return {
         type: SET_PRODUTO,

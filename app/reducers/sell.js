@@ -30,11 +30,23 @@ export default function produtos(state = initialState, action) {
                 venda_total: total,
             };
         case REMOVE_PRODUTO:
-            for(var i=0; i <= state.produtos_vendidos; i++ ){
-                if( state.produtos_vendidos[i] == action.payload ){
-                    return {
-                        ...state,
-                        produtos_vendidos: [...state.produtos_vendidos.splice(i,1)]
+
+            if(  state.produtos_vendidos.length == 1){
+                return {
+                    ...state,
+                    produtos_vendidos: [],
+                    venda_total: 0,
+                }
+            }else{
+                for(var i=0; i <= state.produtos_vendidos.length; i++ ){
+                    if( state.produtos_vendidos[i].id == action.payload.id ){
+                        state.produtos_vendidos.splice(i,1)
+                        var total = totalize([...state.produtos_vendidos]);
+                        return {
+                            ...state,
+                            produtos_vendidos: [...state.produtos_vendidos],
+                            venda_total: total,
+                        }
                     }
                 }
             }

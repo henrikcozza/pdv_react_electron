@@ -5,7 +5,7 @@ import routes from '../constants/routes';
 import styles from './Home.css';
 import ReactDOM from "react-dom";
 import {
-  Form, Input, Col, Button, Checkbox, InputNumber, message, AutoComplete , Table
+  Form, Input, Col, Button, Checkbox, InputNumber, message, AutoComplete , Table, Tooltip, Modal,
 } from 'antd';
 
 import models from '../../models/index';
@@ -41,6 +41,8 @@ class SellDetailList extends React.Component  {
 
   constructor(props){
       super(props);
+      this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
+
   }
   get_total(){
       var total = 0;
@@ -49,6 +51,24 @@ class SellDetailList extends React.Component  {
           total += this.props.produtos_vendidos[i].price
       }
       return total;
+  }
+  showDeleteConfirm = (row) => {
+      const removeProduto = this.props.removeProduto
+      Modal.confirm({
+          title: 'Você tem certeza que deseja remover este item da lista?',
+          content: ` Produto : ${row.name} `,
+          okText: 'Sim',
+          okType: 'danger',
+          cancelText: 'Não',
+          onOk(close) {
+              removeProduto(row)
+              message.success('produto removido', 1.5)
+              close()
+          },
+          onCancel() {
+              console.log('Cancelou');
+          },
+      })
   }
 
   render() {
@@ -68,10 +88,27 @@ class SellDetailList extends React.Component  {
             render: text => currency.format(text, { code: 'BRL' }),
             },
             {
-            title: 'SubTotal ',
+            title: 'SubTotal',
             dataIndex: 'price',
             key: 'price_tot',
             render: (text, obj) => currency.format( (text*obj.qt), { code: 'BRL' }),
+            },
+            {
+            title: 'Ação',
+            dataIndex: '',
+            key: 'x',
+            render: (row) => (
+              <span>
+                <Tooltip placement="bottomRight" title="Remover produto">
+                    <Button
+                        onClick={() => {this.showDeleteConfirm(row)}}
+                        type="danger"
+                        shape="circle"
+                        icon="delete"
+                      />
+                </Tooltip>
+              </span>
+            ),
             }
         ];
 
