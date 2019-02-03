@@ -6,6 +6,8 @@ import { connectRouter } from 'connected-react-router';
 export const CANCELA_VENDA = 'CANCELA_VENDA';
 export const REMOVE_PRODUTO = 'REMOVE_PRODUTO';
 export const SET_PRODUTO = 'SET_PRODUTO';
+export const UPDATE_PRODUTO = 'UPDATE_PRODUTO';
+
 import {
   Form, Input, Col, Button, Checkbox, InputNumber, message, AutoComplete ,
 } from 'antd';
@@ -25,6 +27,24 @@ function totalize(lista_obj){
 
 export default function produtos(state = initialState, action) {
     switch (action.type){
+        case UPDATE_PRODUTO:
+            if(state.produtos_vendidos.length){
+                for(var i=0; i < state.produtos_vendidos.length; i++ ){
+                    if(state.produtos_vendidos[i].id == action.payload.id ){
+                        state.produtos_vendidos[i] = {...state.produtos_vendidos[i], ...action.payload}
+                        var total = totalize([...state.produtos_vendidos]);
+                        return{
+                            ...state,
+                            produtos_vendidos: [...state.produtos_vendidos],
+                            venda_total: total,
+                        };
+
+                    }
+                }
+            }
+
+          return state
+
         case SET_PRODUTO:
             if(state.produtos_vendidos.length){
                 for(var i=0; i < state.produtos_vendidos.length; i++ ){
